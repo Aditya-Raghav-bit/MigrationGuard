@@ -4,7 +4,7 @@ MigrationGuard is a developer tool that identifies potential risks in PostgreSQL
 
 ## Current status
 
-Day 1, Milestone 2 is complete: the Next.js and TypeScript foundation is ready. Static migration analysis and isolated database testing are not implemented yet.
+The responsive SQL migration editor and the first deterministic static analysis rules are available. Isolated database testing is not implemented yet.
 
 ## Planned technology stack
 

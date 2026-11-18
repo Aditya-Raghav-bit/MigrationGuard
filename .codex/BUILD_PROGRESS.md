@@ -18,16 +18,24 @@ Day 1 of 16.
 - Added a safe environment-variable template and Git ignore rules.
 - Added an initial README that accurately describes the current state.
 
+### Day 1, Milestone 2 - Next.js application scaffold
+
+- Created the Next.js 16 application shell with React 19 and strict TypeScript.
+- Added root layout metadata, a temporary foundation page, global styles, ESLint, TypeScript configuration, and package scripts.
+- Added `pnpm-lock.yaml` and pinned pnpm `10.26.1` through Corepack for reproducible dependency installation.
+- Updated setup and verification instructions in the README.
+- Added a permanent dependency inventory with the purpose, location, inspection, update, and removal commands for every direct package.
+- Fixed a local npm dependency-extraction failure by using pnpm, whose linked dependency layout completed successfully on this Windows environment.
+
 ## Current milestone
 
-Completed. Awaiting user review and commit before beginning Day 1, Milestone 2.
+Completed. Awaiting user review and commit before beginning Day 1, Milestone 3.
 
 ## Pending milestones
 
 ### Day 1 remaining
 
-1. Create the Next.js + TypeScript scaffold and shared UI foundation.
-2. Add the first accessible migration-editor screen and design tokens.
+1. Add the first accessible migration-editor screen and design tokens.
 
 ### Days 2–16
 
@@ -40,10 +48,11 @@ Completed. Awaiting user review and commit before beginning Day 1, Milestone 2.
 - Keep static findings, observed execution results, and AI explanations as distinct data categories.
 - Make deterministic SQL rules useful without requiring AI or Docker.
 - Run SQL only in a disposable Docker PostgreSQL instance; never use a production database by default.
+- Use pnpm through Corepack for dependencies because npm installation was unreliable in this Windows environment.
 
 ## Technologies and dependencies introduced
 
-No runtime dependencies yet. Planned: Next.js, React, TypeScript, PostgreSQL, and Docker.
+Runtime and development dependencies: Next.js 16, React 19, TypeScript 5.9, ESLint 9, and ESLint's Next.js configuration. The repository uses pnpm 10 through Corepack to manage dependencies.
 
 ## Important files and responsibilities
 
@@ -53,22 +62,26 @@ No runtime dependencies yet. Planned: Next.js, React, TypeScript, PostgreSQL, an
 | `.env.example` | Safe local environment-variable contract. |
 | `.gitignore` | Prevents local environment files, dependencies, builds, and logs entering Git. |
 | `README.md` | Honest project overview and documentation entry point. |
+| `package.json` | Project scripts, pinned dependencies, and package-manager version. |
+| `pnpm-lock.yaml` | Exact resolved dependency versions for repeatable installs. |
+| `src/app/` | Next.js root layout, temporary page, and global stylesheet. |
 
 ## Tests executed and actual results
 
-- No application tests exist yet, so none were run.
-- Environment checks completed with the availability noted above.
+- `corepack pnpm run lint` passed.
+- `corepack pnpm run typecheck` passed.
+- `corepack pnpm run build` passed and generated a production build.
 
 ## Known bugs and limitations
 
-- No application scaffold or functionality exists yet.
+- The current page is intentionally minimal; the migration-editor interface is the next milestone.
 - Docker and PostgreSQL CLI are unavailable in the current environment.
-- `npm.ps1` cannot run under the active PowerShell execution policy; `npm.cmd` may be usable after the scaffold is created.
+- npm installation was unreliable in this Windows environment, so setup instructions use Corepack with pnpm instead.
 
 ## Remaining work
 
-All implementation milestones remain, beginning with the application scaffold and UI foundation.
+All product functionality remains, beginning with the migration-editor UI foundation.
 
 ## Next recommended action
 
-After reviewing and committing this milestone, create the Next.js TypeScript scaffold and initial developer-tool UI foundation.
+After reviewing and committing this milestone, create the accessible migration-editor interface and its shared design tokens.

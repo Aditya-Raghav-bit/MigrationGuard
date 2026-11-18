@@ -4,7 +4,7 @@ MigrationGuard is a developer tool that identifies potential risks in PostgreSQL
 
 ## Current status
 
-Day 1, Milestone 1 is complete: architecture, safety boundaries, environment contract, visual direction, and the 16-day plan are documented. Application code has not been created yet.
+Day 1, Milestone 2 is complete: the Next.js and TypeScript foundation is ready. Static migration analysis and isolated database testing are not implemented yet.
 
 ## Planned technology stack
 
@@ -13,11 +13,27 @@ Day 1, Milestone 1 is complete: architecture, safety boundaries, environment con
 - Docker for disposable migration-test databases
 - Node.js test tooling
 
-## Setup
+## Local setup
 
-The application scaffold will be added in the next approved milestone. For now, copy `.env.example` to `.env` only when setting up local services, and never use a production database URL.
+MigrationGuard uses [pnpm](https://pnpm.io/) through Corepack, which ships with supported Node.js versions.
+
+```bash
+corepack pnpm install
+corepack pnpm dev
+```
+
+Open `http://localhost:3000` after the development server starts. Copy `.env.example` to `.env` when local services are introduced, and never use a production database URL.
+
+## Verification commands
+
+```bash
+corepack pnpm run lint
+corepack pnpm run typecheck
+corepack pnpm run build
+```
 
 ## Documentation
 
 - [Architecture](docs/ARCHITECTURE.md)
+- [Dependency inventory](docs/DEPENDENCIES.md)
 - [Temporary build progress](.codex/BUILD_PROGRESS.md)

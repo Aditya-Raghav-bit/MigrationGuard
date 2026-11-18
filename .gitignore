@@ -2,6 +2,7 @@
 node_modules/
 .next/
 coverage/
+tsconfig.tsbuildinfo
 
 # Local environment files
 .env

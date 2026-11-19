@@ -14,8 +14,8 @@ export default function HomePage() {
             <span>MigrationGuard</span>
           </Link>
           <nav aria-label="Primary navigation">
-            <a href="#migration-workspace" aria-current="page">Review</a>
-            <a href="/docs/ARCHITECTURE.md">Approach</a>
+            <Link href="/" aria-current="page">Review</Link>
+            <Link href="/approach">Approach</Link>
           </nav>
         </div>
       </header>

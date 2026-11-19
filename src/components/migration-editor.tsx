@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { analyzeMigration, type MigrationFinding } from "@/lib/analysis";
+import type { MigrationFinding } from "@/lib/analysis";
 
 const sampleMigration = `ALTER TABLE customers
   ADD COLUMN preferred_name TEXT;
@@ -14,21 +14,54 @@ const maximumMigrationLength = 102_400;
 export function MigrationEditor() {
   const [migrationSql, setMigrationSql] = useState(sampleMigration);
   const [findings, setFindings] = useState<MigrationFinding[] | null>(null);
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
   const remainingCharacters = maximumMigrationLength - migrationSql.length;
   const isMigrationEmpty = migrationSql.trim().length === 0;
 
   function clearMigration() {
     setMigrationSql("");
     setFindings(null);
+    setErrorMessage(null);
   }
 
   function restoreSampleMigration() {
     setMigrationSql(sampleMigration);
     setFindings(null);
+    setErrorMessage(null);
   }
 
-  function runAnalysis() {
-    setFindings(analyzeMigration(migrationSql));
+  async function runAnalysis() {
+    if (isMigrationEmpty || isAnalyzing) {
+      return;
+    }
+
+    setIsAnalyzing(true);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch("/api/analyze", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ sql: migrationSql }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        setErrorMessage(data.error || `Server returned error status ${response.status}`);
+        return;
+      }
+
+      setFindings(data.findings);
+    } catch {
+      setErrorMessage("Network error: Could not reach the analysis server. Please check your connection.");
+    } finally {
+      setIsAnalyzing(false);
+    }
   }
 
   return (
@@ -43,7 +76,7 @@ export function MigrationEditor() {
           </p>
         </div>
         <p className="draft-status" aria-live="polite">
-          {isMigrationEmpty ? "Empty draft" : "Unsaved draft"}
+          {isMigrationEmpty ? "Empty draft" : isAnalyzing ? "Analyzing..." : "Unsaved draft"}
         </p>
       </div>
 
@@ -58,16 +91,26 @@ export function MigrationEditor() {
             id="migration-sql"
             className="sql-input"
             value={migrationSql}
-            onChange={(event) => setMigrationSql(event.target.value)}
+            onChange={(event) => {
+              setMigrationSql(event.target.value);
+              if (errorMessage) setErrorMessage(null);
+            }}
             maxLength={maximumMigrationLength}
             spellCheck="false"
             aria-describedby="migration-help migration-count"
             placeholder="ALTER TABLE ..."
+            disabled={isAnalyzing}
           />
+
+          {errorMessage && (
+            <div className="alert-error" role="alert">
+              <strong>Error:</strong> {errorMessage}
+            </div>
+          )}
 
           <div className="editor-footer">
             <p id="migration-help">
-              SQL remains in this draft until you choose to analyze it.
+              SQL is analyzed via backend API with strict payload boundaries.
             </p>
             <p id="migration-count" aria-live="polite">
               {migrationSql.length.toLocaleString()} characters ·{" "}
@@ -76,14 +119,19 @@ export function MigrationEditor() {
           </div>
 
           <div className="editor-actions">
-            <button className="button button-secondary" type="button" onClick={restoreSampleMigration}>
+            <button
+              className="button button-secondary"
+              type="button"
+              onClick={restoreSampleMigration}
+              disabled={isAnalyzing}
+            >
               Restore sample
             </button>
             <button
               className="button button-secondary"
               type="button"
               onClick={clearMigration}
-              disabled={isMigrationEmpty}
+              disabled={isMigrationEmpty || isAnalyzing}
             >
               Clear draft
             </button>
@@ -91,9 +139,9 @@ export function MigrationEditor() {
               className="button button-primary"
               type="button"
               onClick={runAnalysis}
-              disabled={isMigrationEmpty}
+              disabled={isMigrationEmpty || isAnalyzing}
             >
-              Analyze migration
+              {isAnalyzing ? "Analyzing migration..." : "Analyze migration"}
             </button>
           </div>
         </div>
@@ -101,18 +149,22 @@ export function MigrationEditor() {
         <aside className="review-note" aria-labelledby="review-note-title">
           <p className="eyebrow">Static analysis</p>
           <h2 id="review-note-title">
-            {findings === null
-              ? "No result yet"
-              : findings.length === 0
-                ? "No rule matches"
-                : `${findings.length} finding${findings.length === 1 ? "" : "s"}`}
+            {isAnalyzing
+              ? "Running analysis..."
+              : findings === null
+                ? "No result yet"
+                : findings.length === 0
+                  ? "No rule matches"
+                  : `${findings.length} finding${findings.length === 1 ? "" : "s"}`}
           </h2>
           <p>
-            {findings === null
-              ? "Analyze this draft to identify deterministic risks without executing the SQL."
-              : findings.length === 0
-                ? "The current rules found no known risk patterns. This is not a production-safety guarantee."
-                : "These are inferred risks from local rules, not observations from a test database."}
+            {isAnalyzing
+              ? "Inspecting migration statements against deterministic risk rules..."
+              : findings === null
+                ? "Analyze this draft to identify deterministic risks without executing the SQL."
+                : findings.length === 0
+                  ? "The current rules found no known risk patterns. This is not a production-safety guarantee."
+                  : "These are inferred risks from local rules, not observations from a test database."}
           </p>
           {findings && findings.length > 0 ? (
             <ul className="finding-list">

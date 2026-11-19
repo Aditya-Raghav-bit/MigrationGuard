@@ -113,7 +113,8 @@ Runtime and development dependencies: Next.js 16, React 19, TypeScript 5.9, ESLi
 | `tests/config.test.ts` | Automated tests for environment variable parsing and production URL checks. |
 | `tests/api.test.ts` | Automated integration tests for `/api/health` and `/api/analyze` routes. |
 | `src/app/` | Next.js pages, API route handlers, layout, and responsive styles. |
-| `src/components/migration-editor.tsx` | Interactive, accessible SQL editor foundation. |
+| `src/app/approach/page.tsx` | Dedicated approach and architecture explanation page. |
+| `src/components/migration-editor.tsx` | Interactive, accessible SQL editor foundation connected to backend API. |
 | `src/lib/config.ts` | Type-safe runtime environment configuration and safety checks. |
 | `src/lib/analysis.ts` | Deterministic migration risk rules, evidence extraction, and finding types. |
 

@@ -11,6 +11,7 @@ Use these commands from the repository root:
 ```bash
 corepack pnpm install
 corepack pnpm run dev
+corepack pnpm run test
 corepack pnpm run lint
 corepack pnpm run typecheck
 corepack pnpm run build
@@ -48,6 +49,12 @@ These three packages are the application framework and normally should be kept t
 | `eslint-config-next` | `16.4.6` | Next.js-specific lint rules used by the ESLint configuration. | `corepack pnpm remove -D eslint-config-next` |
 
 The `@types/*` packages and TypeScript work together. ESLint and its Next.js configuration also work together. Do not remove one from either group unless the related configuration is removed or replaced too.
+
+## Automated test runner
+
+MigrationGuard uses the built-in **Node.js test runner** (`node:test` and `node:assert/strict`) via `node --test --experimental-strip-types tests/**/*.test.ts`.
+
+It runs TypeScript tests natively in Node 24 without requiring third-party testing frameworks (such as Jest or Vitest) or separate transpilation tools, keeping dependencies minimal, lightweight, and easy to explain.
 
 ## Inspecting dependencies
 

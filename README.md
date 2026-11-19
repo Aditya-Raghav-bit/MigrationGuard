@@ -24,9 +24,16 @@ corepack pnpm dev
 
 Open `http://localhost:3000` after the development server starts. Copy `.env.example` to `.env` when local services are introduced, and never use a production database URL.
 
+To start the local PostgreSQL service for application data:
+
+```bash
+docker compose up -d
+```
+
 ## Verification commands
 
 ```bash
+corepack pnpm run test
 corepack pnpm run lint
 corepack pnpm run typecheck
 corepack pnpm run build
@@ -35,5 +42,6 @@ corepack pnpm run build
 ## Documentation
 
 - [Architecture](docs/ARCHITECTURE.md)
+- [Database & Docker guide](docs/DATABASE.md)
 - [Dependency inventory](docs/DEPENDENCIES.md)
 - [Temporary build progress](.codex/BUILD_PROGRESS.md)

@@ -76,7 +76,10 @@ function lineAt(sql: string, index: number) {
 }
 
 function evidenceAt(sql: string, index: number) {
-  const line = sql.slice(0, index).split("\n").pop()?.trim() ?? "";
+  const lineStart = index <= 0 ? 0 : sql.lastIndexOf("\n", index - 1) + 1;
+  const lineEnd = sql.indexOf("\n", index);
+  const rawLine = lineEnd === -1 ? sql.slice(lineStart) : sql.slice(lineStart, lineEnd);
+  const line = rawLine.replace(/\r$/, "").trim();
   return line.length > 160 ? `${line.slice(0, 157)}...` : line;
 }
 

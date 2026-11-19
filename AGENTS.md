@@ -409,9 +409,9 @@ Keep explanations concise but sufficiently detailed for me to understand the imp
 
 Create and maintain this file:
 
-`.codex/BUILD_PROGRESS.md`
+`.progress/BUILD_PROGRESS.md`
 
-This file is for development continuity across the 16 days and separate Codex sessions.
+This file is for development continuity across the 16 days and separate sessions.
 
 It must contain:
 
@@ -432,7 +432,7 @@ Update this file after every completed milestone.
 
 Before starting a new session, read:
 1. `AGENTS.md`
-2. `.codex/BUILD_PROGRESS.md`
+2. `.progress/BUILD_PROGRESS.md`
 
 Use these files to understand the project state before making changes.
 
@@ -440,20 +440,20 @@ Do not assume that a previous session completed something unless the code and pr
 
 ### Important final cleanup requirement
 
-`.codex/BUILD_PROGRESS.md` is temporary.
+`.progress/BUILD_PROGRESS.md` is temporary.
 
 On Day 16, before the final commit:
 
 1. Ensure all essential project documentation is preserved in permanent files.
 2. Verify that no necessary project information exists only in the temporary progress file.
-3. Delete `.codex/BUILD_PROGRESS.md`.
-4. Remove the `.codex` directory if it is empty.
+3. Delete `.progress/BUILD_PROGRESS.md`.
+4. Remove the `.progress` directory if it is empty.
 5. Verify that `AGENTS.md` and all actual project files remain intact.
 6. Check `git status`.
 7. Confirm that the temporary progress file is no longer present.
 8. Tell me explicitly that the file has been deleted.
 
-**The temporary file to delete is `.codex/BUILD_PROGRESS.md`.**
+**The temporary file to delete is `.progress/BUILD_PROGRESS.md`.**
 
 Do not delete `AGENTS.md`.
 
@@ -593,7 +593,7 @@ When you first receive these instructions:
 2. Read this `AGENTS.md`.
 3. Check the available development tools and dependencies.
 4. Identify whether the workspace is empty or already contains a project.
-5. Create `.codex/BUILD_PROGRESS.md`.
+5. Create `.progress/BUILD_PROGRESS.md`.
 6. Prepare the architecture and a concise 16-day implementation plan.
 7. Identify major technical risks.
 8. Begin Day 1, Milestone 1.

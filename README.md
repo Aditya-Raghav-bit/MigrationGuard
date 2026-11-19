@@ -44,4 +44,4 @@ corepack pnpm run build
 - [Architecture](docs/ARCHITECTURE.md)
 - [Database & Docker guide](docs/DATABASE.md)
 - [Dependency inventory](docs/DEPENDENCIES.md)
-- [Temporary build progress](.codex/BUILD_PROGRESS.md)
+- [Temporary build progress](.progress/BUILD_PROGRESS.md)

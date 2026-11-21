@@ -11,6 +11,8 @@ test("GET /api/health returns 200 and healthy status", async () => {
   assert.equal(data.status, "ok");
   assert.equal(data.service, "MigrationGuard");
   assert.equal(typeof data.timestamp, "string");
+  assert.equal(typeof data.database, "object");
+  assert.equal(typeof data.database.connected, "boolean");
 });
 
 test("POST /api/analyze validates JSON payload", async () => {

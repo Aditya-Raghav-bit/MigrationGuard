@@ -45,23 +45,29 @@ Build an understandable, portfolio-quality developer tool that analyzes PostgreS
 - Added loading state (`isAnalyzing`), disabled button states, and accessible `.alert-error` banners for API error handling.
 - Eliminated the homepage 404 broken link by creating a dedicated, responsive Next.js page at `src/app/approach/page.tsx`.
 
+#### Day 2, Milestone 3 — PostgreSQL Client Driver & Application Schema
+- Installed `pg` (v8.23.1) and `@types/pg` dev dependency for application database connectivity.
+- Built connection pool module in `src/lib/db.ts` with `getPool()`, `query()`, `checkDatabaseHealth()`, and `closePool()`.
+- Implemented graceful offline fallback: if local PostgreSQL is unreachable, health check safely reports offline status with 2s timeout without throwing or crashing the server.
+- Built `src/db/schema.sql` defining the `migration_reviews` table for storing submitted migrations, severity counts, and structured JSON findings.
+- Connected database health status into `GET /api/health`.
+- Added automated unit tests in `tests/db.test.ts` (total 20/20 automated tests passing).
+
 #### Day 3, Milestone 1 & 2 — Deterministic SQL analysis rules & unit testing
 - Built client-side & server-side deterministic analysis engine in `src/lib/analysis.ts`.
 - Rules detect 6 core risk patterns: `DROP TABLE`, `DROP COLUMN`, `ALTER COLUMN TYPE`, `NOT NULL` additions, unvalidated constraints, and non-concurrent indexes.
 - Added comment masking (`--`, `/* */`) and string literal masking.
 - Fixed line-extraction bug in `evidenceAt` to capture full statement lines.
-- Set up zero-dependency Node.js test runner (`node:test` + `--experimental-strip-types`) with 19 passing tests in `tests/analysis.test.ts`.
+- Set up zero-dependency Node.js test runner (`node:test` + `--experimental-strip-types`) with passing tests in `tests/analysis.test.ts`.
 
 ---
 
 ### ⏳ Current Pending Milestone
 
-#### Day 2, Final Foundation Milestone — PostgreSQL Client Driver & Schema
-- Install `pg` (Node PostgreSQL driver) and `@types/pg` dev dependency.
-- Create `src/lib/db.ts` connection pool with query helpers and graceful connection fallback when DB is offline.
-- Create `src/db/schema.sql` defining the `migration_reviews` table for storing analysis results.
-- Add database health check integration into `GET /api/health`.
-- Add unit tests for database configuration and connection handling.
+#### Day 3, Milestone 3 — SQL Statement Tokenization & Boundary Enhancements
+- Improve SQL statement splitting and multi-line boundary parsing (handling semicolons inside quoted identifiers/literals).
+- Expand detection to cover lock timeouts (`SET lock_timeout`), statement timeouts, and default value additions on large tables.
+- Add focused automated test coverage for multi-statement edge cases.
 
 ---
 
@@ -98,18 +104,21 @@ Build an understandable, portfolio-quality developer tool that analyzes PostgreS
 | `src/app/` | Next.js pages, API route handlers, layout, and responsive styles. |
 | `src/app/approach/page.tsx` | Dedicated approach and architecture explanation page. |
 | `src/components/migration-editor.tsx` | Interactive, accessible SQL editor connected to backend API. |
+| `src/lib/db.ts` | PostgreSQL connection pool, queries, and safe health probing. |
+| `src/db/schema.sql` | Application database schema for storing migration analysis history. |
 | `src/lib/config.ts` | Type-safe runtime environment configuration and safety checks. |
 | `src/lib/analysis.ts` | Deterministic migration risk rules, evidence extraction, and finding types. |
 | `tests/analysis.test.ts` | Automated unit test suite verifying deterministic SQL risk analysis. |
 | `tests/config.test.ts` | Automated tests for environment variable parsing and production URL checks. |
 | `tests/api.test.ts` | Automated integration tests for `/api/health` and `/api/analyze` routes. |
+| `tests/db.test.ts` | Automated tests for database health check and offline resilience. |
 
 ## Tests executed and actual results
 
-- `corepack pnpm run test`: 19/19 tests passing across 3 suites in ~400ms.
+- `corepack pnpm run test`: 20/20 tests passing across 4 suites in ~570ms.
 - `corepack pnpm run typecheck`: Passed with 0 errors (`tsc --noEmit`).
 - `corepack pnpm run build`: Production build succeeded (`/`, `/_not-found`, `/approach`, `/api/analyze`, `/api/health`).
 
 ## Next recommended action
 
-Implement Day 2 Final Milestone: Install `pg` and `@types/pg`, build `src/lib/db.ts` with connection pooling, and create `src/db/schema.sql`.
+Proceed to **Day 3, Milestone 3**: SQL Statement Tokenization & Boundary Enhancements (improve statement boundary parsing, lock timeout inspection, and multi-statement handling).

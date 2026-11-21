@@ -34,8 +34,9 @@ Do not delete `pnpm-lock.yaml` during ordinary development. It lets every develo
 | `next` | `16.4.6` | Full-stack React framework: pages, server endpoints, development server, and production build. | `corepack pnpm remove next` |
 | `react` | `19.3.1` | Defines the application user interface as reusable components. | `corepack pnpm remove react` |
 | `react-dom` | `19.3.1` | Renders React components in the browser. | `corepack pnpm remove react-dom` |
+| `pg` | `8.23.1` | PostgreSQL client driver with connection pooling (`pg.Pool`) for application data and status checks. | `corepack pnpm remove pg` |
 
-These three packages are the application framework and normally should be kept together. Removing one will make the app unable to run.
+These packages are the core application runtime dependencies.
 
 ## Development dependencies
 
@@ -45,6 +46,7 @@ These three packages are the application framework and normally should be kept t
 | `@types/node` | `24.10.1` | Type definitions for Node.js APIs. | `corepack pnpm remove -D @types/node` |
 | `@types/react` | `19.3.0` | Type definitions for React. | `corepack pnpm remove -D @types/react` |
 | `@types/react-dom` | `19.3.0` | Type definitions for React DOM. | `corepack pnpm remove -D @types/react-dom` |
+| `@types/pg` | `8.23.1` | Type definitions for the PostgreSQL `pg` client driver. | `corepack pnpm remove -D @types/pg` |
 | `eslint` | `9.39.5` | Finds common code-quality and accessibility problems. | `corepack pnpm remove -D eslint` |
 | `eslint-config-next` | `16.4.6` | Next.js-specific lint rules used by the ESLint configuration. | `corepack pnpm remove -D eslint-config-next` |
 
